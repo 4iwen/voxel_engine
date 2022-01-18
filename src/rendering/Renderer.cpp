@@ -2,6 +2,32 @@
 #include "../shader/Shader.h"
 #include "Renderer.h"
 
+const char* vertex_shader_source =
+"#version 330 core\n"
+
+"layout (location = 0) in vec3 aPos;\n"
+
+"void main()\n"
+"{\n"
+"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"}\0";
+
+const char* fragment_shader_source =
+"#version 330 core\n"
+
+"out vec4 FragColor; \n"
+
+"void main()\n"
+"{\n"
+"    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+"}\0";
+
+std::vector<float> vertices = {
+-0.5f, -0.5f, 0.0f,
+ 0.5f, -0.5f, 0.0f,
+ 0.0f,  0.5f, 0.0f
+};
+
 Renderer::Renderer()
 {
 	loop();
@@ -11,10 +37,13 @@ void Renderer::loop()
 {
     unsigned int chunks_loaded = 0;
     unsigned int voxels_loaded = 0;
-    const char* glsl_version = "#version 130";
+    const char* glsl_version = "#version 330";
 
-    Window* main_window = new Window(1280, 720, "voxel engine");
-    Shader* main_shader = new Shader();
+    Window* main_window = new Window(1280, 720, "voxel engine"); // create window
+    Shader* main_shader = new Shader(vertices, vertex_shader_source, fragment_shader_source); // create shader
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_LINE -> wireframe | GL_FILL -> fill 
+    glUseProgram(main_shader->program_id);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -27,8 +56,9 @@ void Renderer::loop()
 
     while (!glfwWindowShouldClose(main_window->window_handle))
     {
-        glfwSwapBuffers(main_window->window_handle);
         main_window->process_input(main_window->window_handle);
+
+        glClear(GL_COLOR_BUFFER_BIT);
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -45,8 +75,11 @@ void Renderer::loop()
         ImGui::EndFrame();
 
         ImGui::Render();
-        glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        glfwSwapBuffers(main_window->window_handle);
         glfwPollEvents();
     }
 

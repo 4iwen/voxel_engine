@@ -1,43 +1,69 @@
 #include "Shader.h"
 
-const char* vertexShaderSource =
-"#version 330 core\n"
+unsigned int program_id;
 
-"layout (location = 0) in vec3 aPos;\n"
+std::vector<float> _vertices;
+const char* _vertex_shader_source; 
+const char* _fragment_shader_source;
 
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-
-const char* fragmentShaderSource =
-"#version 330 core\n"
-
-"out vec4 FragColor; \n"
-
-"void main()\n"
-"{\n"
-"    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\0";
-
-float vertices[] = {
--0.5f, -0.5f, 0.0f,
- 0.5f, -0.5f, 0.0f,
- 0.0f,  0.5f, 0.0f
-};
-
-Shader::Shader()
+Shader::Shader(std::vector<float> vertices, const char* vertex_shader_source, const char* fragment_shader_source)
 {
+    _vertices = vertices;
+    _vertex_shader_source = vertex_shader_source;
+    _fragment_shader_source = fragment_shader_source;
+}
+
+void Shader::create_program(std::vector<float> vertices)
+{
+    unsigned int vertex_shader = create_vertex_shader(_vertex_shader_source);
+    check_vertex_shader(vertex_shader);
+    unsigned int fragment_shader = create_fragment_shader(_fragment_shader_source);
+    check_fragment_shader(fragment_shader);
+
+    program_id = glCreateProgram();
+
+    glAttachShader(program_id, vertex_shader); // attach both shaders
+    glAttachShader(program_id, fragment_shader);
+    glLinkProgram(program_id);
+
+    glDeleteShader(vertex_shader); // delete both shaders cuz we already attached them
+    glDeleteShader(fragment_shader);
+
     unsigned int VBO;
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW); // create vertex buffer object
 
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+unsigned int Shader::create_vertex_shader(const char* vertex_shader_source)
+{
+    unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
+    glCompileShader(vertex_shader);
+
+    return vertex_shader;
+}
+
+unsigned int Shader::create_fragment_shader(const char* fragment_shader_source)
+{
+    unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
+    glCompileShader(fragment_shader);
+
+    return fragment_shader;
+}
+
+void Shader::check_vertex_shader(unsigned int vertexShader)
+{
     int vertexSuccess;
     char vertexInfoLog[512];
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vertexSuccess);
@@ -46,12 +72,10 @@ Shader::Shader()
         glGetShaderInfoLog(vertexShader, 512, NULL, vertexInfoLog);
         printf("Vertex shader compilation failed:\n%s", vertexInfoLog);
     }
+}
 
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
+void Shader::check_fragment_shader(unsigned int fragmentShader)
+{
     int fragmentSuccess;
     char fragmentInfoLog[512];
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentSuccess);
@@ -60,19 +84,4 @@ Shader::Shader()
         glGetShaderInfoLog(fragmentShader, 512, NULL, fragmentInfoLog);
         printf("Fragment shader compilation failed:\n%s", fragmentInfoLog);
     }
-
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
-
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glUseProgram(shaderProgram);
 }
