@@ -1,4 +1,5 @@
 #include "../window/Window.h"
+#include "../shader/Shader.h"
 #include "Renderer.h"
 
 Renderer::Renderer()
@@ -13,6 +14,7 @@ void Renderer::loop()
     const char* glsl_version = "#version 130";
 
     Window* main_window = new Window(1280, 720, "voxel engine");
+    Shader* main_shader = new Shader();
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
