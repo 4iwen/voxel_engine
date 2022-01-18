@@ -72,26 +72,26 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)obj</IntDir>
+    <OutDir>$(ProjectDir)build/</OutDir>
+    <IntDir>$(ProjectDir)obj/</IntDir>
     <TargetName>voxel engine</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)obj</IntDir>
+    <OutDir>$(ProjectDir)build/</OutDir>
+    <IntDir>$(ProjectDir)obj/</IntDir>
     <TargetName>voxel engine</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)obj</IntDir>
+    <OutDir>$(ProjectDir)build/</OutDir>
+    <IntDir>$(ProjectDir)obj/</IntDir>
     <TargetName>voxel engine</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)obj</IntDir>
+    <OutDir>$(ProjectDir)build/</OutDir>
+    <IntDir>$(ProjectDir)obj/</IntDir>
     <TargetName>voxel engine</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -100,7 +100,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps/imgui/include/;$(ProjectDir)deps/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps/glad/include/;$(ProjectDir)deps/imgui/include/;$(ProjectDir)deps/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps/imgui/include/;$(ProjectDir)deps/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps/glad/include/;$(ProjectDir)deps/imgui/include/;$(ProjectDir)deps/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps/imgui/include/;$(ProjectDir)deps/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps/glad/include/;$(ProjectDir)deps/imgui/include/;$(ProjectDir)deps/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,7 +151,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps/imgui/include/;$(ProjectDir)deps/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps/glad/include/;$(ProjectDir)deps/imgui/include/;$(ProjectDir)deps/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="deps\glad\src\glad.c" />
     <ClCompile Include="deps\imgui\include\imgui.cpp" />
     <ClCompile Include="deps\imgui\include\imgui_demo.cpp" />
     <ClCompile Include="deps\imgui\include\imgui_draw.cpp" />
@@ -170,9 +171,15 @@
     <ClCompile Include="deps\imgui\include\imgui_impl_opengl3.cpp" />
     <ClCompile Include="deps\imgui\include\imgui_tables.cpp" />
     <ClCompile Include="deps\imgui\include\imgui_widgets.cpp" />
+    <ClCompile Include="src\rendering\Renderer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="deps\glad\include\glad\glad.h" />
+    <ClInclude Include="deps\glad\include\KHR\khrplatform.h" />
+    <ClInclude Include="deps\glfw\include\glfw3.h" />
+    <ClInclude Include="deps\glfw\include\glfw3native.h" />
     <ClInclude Include="deps\imgui\include\imconfig.h" />
     <ClInclude Include="deps\imgui\include\imgui.h" />
     <ClInclude Include="deps\imgui\include\imgui_impl_glfw.h" />
@@ -182,6 +189,8 @@
     <ClInclude Include="deps\imgui\include\imstb_rectpack.h" />
     <ClInclude Include="deps\imgui\include\imstb_textedit.h" />
     <ClInclude Include="deps\imgui\include\imstb_truetype.h" />
+    <ClInclude Include="src\rendering\Renderer.h" />
+    <ClInclude Include="src\window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
