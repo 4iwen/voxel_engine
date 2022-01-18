@@ -13,7 +13,7 @@ Shader::Shader(std::vector<float> vertices, const char* vertex_shader_source, co
     _fragment_shader_source = fragment_shader_source;
 }
 
-void Shader::create_program(std::vector<float> vertices)
+void Shader::create_program()
 {
     unsigned int vertex_shader = create_vertex_shader(_vertex_shader_source);
     check_vertex_shader(vertex_shader);
@@ -32,7 +32,7 @@ void Shader::create_program(std::vector<float> vertices)
     unsigned int VBO;
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW); // create vertex buffer object
+    glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), _vertices.data(), GL_STATIC_DRAW); // create vertex buffer object
 
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);

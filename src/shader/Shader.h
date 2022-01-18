@@ -13,7 +13,7 @@ public:
 
 	Shader(std::vector<float> vertices, const char* vertex_shader_source, const char* fragment_shader_source);
 
-	void create_program(std::vector<float> vertices);
+	void create_program();
 
 private:
 	std::vector<float> _vertices;

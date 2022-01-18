@@ -41,6 +41,7 @@ void Renderer::loop()
 
     Window* main_window = new Window(1280, 720, "voxel engine"); // create window
     Shader* main_shader = new Shader(vertices, vertex_shader_source, fragment_shader_source); // create shader
+    main_shader->create_program();
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_LINE -> wireframe | GL_FILL -> fill 
     glUseProgram(main_shader->program_id);
