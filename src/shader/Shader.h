@@ -11,12 +11,11 @@ class Shader
 public:
 	unsigned int program_id;
 
-	Shader(std::vector<float> vertices, const char* vertex_shader_source, const char* fragment_shader_source);
+	Shader(const char* vertex_shader_source, const char* fragment_shader_source);
 
 	void create_program();
 
 private:
-	std::vector<float> _vertices;
 	const char* _vertex_shader_source;
 	const char* _fragment_shader_source;
 

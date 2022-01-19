@@ -12,6 +12,7 @@ public:
     Renderer();
 
 private:
+    void draw_debug_window();
     void loop();
 };
 

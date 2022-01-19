@@ -5,11 +5,11 @@
 const char* vertex_shader_source =
 "#version 330 core\n"
 
-"layout (location = 0) in vec3 aPos;\n"
+"layout (location = 0) in vec3 position;\n"
 
 "void main()\n"
 "{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"   gl_Position = vec4(position, 1.0);\n"
 "}\0";
 
 const char* fragment_shader_source =
@@ -19,31 +19,39 @@ const char* fragment_shader_source =
 
 "void main()\n"
 "{\n"
-"    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+"    FragColor = vec4(1.0f, 0.0f, 0.1f, 1.0f);\n"
 "}\0";
-
-std::vector<float> vertices = {
--0.5f, -0.5f, 0.0f,
- 0.5f, -0.5f, 0.0f,
- 0.0f,  0.5f, 0.0f
-};
 
 Renderer::Renderer()
 {
 	loop();
 }
 
-void Renderer::loop()
+void Renderer::draw_debug_window()
 {
     unsigned int chunks_loaded = 0;
     unsigned int voxels_loaded = 0;
+
+    ImGui::SetNextWindowSize(ImVec2(0, 0), ImGuiCond_Once);
+    ImGui::Begin("debug", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::Text("fps: %.1f", ImGui::GetIO().Framerate);
+    ImGui::Text("chunks loaded: %u", chunks_loaded);
+    ImGui::Text("voxels loaded: %u", voxels_loaded);
+    ImGui::End();
+    ImGui::EndFrame();
+}
+
+void Renderer::loop()
+{
     const char* glsl_version = "#version 330";
 
     Window* main_window = new Window(1280, 720, "voxel engine"); // create window
-    Shader* main_shader = new Shader(vertices, vertex_shader_source, fragment_shader_source); // create shader
+    Shader* main_shader = new Shader(vertex_shader_source, fragment_shader_source); // create shader
     main_shader->create_program();
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_LINE -> wireframe | GL_FILL -> fill 
+    printf("Using renderer: %s", glGetString(GL_RENDERER));
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // GL_LINE -> wireframe | GL_FILL -> fill 
     glUseProgram(main_shader->program_id);
 
     IMGUI_CHECKVERSION();
@@ -60,6 +68,7 @@ void Renderer::loop()
         main_window->process_input(main_window->window_handle);
 
         glClear(GL_COLOR_BUFFER_BIT);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -67,18 +76,10 @@ void Renderer::loop()
         ImGui::NewFrame();
         ImGui::ShowDemoWindow();
 
-        ImGui::SetNextWindowSize(ImVec2(0, 0), ImGuiCond_Once);
-        ImGui::Begin("debug", NULL, ImGuiWindowFlags_AlwaysAutoResize);
-        ImGui::Text("fps: %.1f", ImGui::GetIO().Framerate);
-        ImGui::Text("chunks loaded: %u", chunks_loaded);
-        ImGui::Text("voxels loaded: %u", voxels_loaded);
-        ImGui::End();
-        ImGui::EndFrame();
+        draw_debug_window();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(main_window->window_handle);
         glfwPollEvents();
