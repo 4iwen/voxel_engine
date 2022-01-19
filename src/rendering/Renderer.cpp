@@ -1,25 +1,27 @@
 #include "../window/Window.h"
 #include "../shader/Shader.h"
 #include "Renderer.h"
+#include <windows.h>
 
 const char* vertex_shader_source =
 "#version 330 core\n"
 
 "layout (location = 0) in vec3 position;\n"
+"uniform mat4 transform;\n"
 
 "void main()\n"
 "{\n"
-"   gl_Position = vec4(position, 1.0);\n"
+"   gl_Position = transform * vec4(position, 1.0);\n"
 "}\0";
 
 const char* fragment_shader_source =
 "#version 330 core\n"
 
-"out vec4 FragColor; \n"
+"out vec4 FragColor;\n"
 
 "void main()\n"
 "{\n"
-"    FragColor = vec4(1.0f, 0.0f, 0.1f, 1.0f);\n"
+"    FragColor = vec4(0.15f, 0.85f, 0.15f, 1.0f);\n"
 "}\0";
 
 Renderer::Renderer()
@@ -40,19 +42,28 @@ void Renderer::draw_debug_window()
     ImGui::End();
 }
 
+void Renderer::get_max_vertex_count()
+{
+    int nrAttributes;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
+    printf("Maximum of vertex attributes supported: %i\n", nrAttributes);
+}
+
 void Renderer::loop()
 {
     const char* glsl_version = "#version 330"; // tell imgui what version of glsl are we using
 
-    Window* main_window = new Window(1280, 720, "voxel engine"); // create window
+    Window* main_window = new Window(720, 720, "voxel engine"); // create window
     Shader* main_shader = new Shader(vertex_shader_source, fragment_shader_source); // create shader
     main_shader->create_program();
 
-    printf("Using renderer: %s", glGetString(GL_RENDERER));
+    printf("Using renderer: %s\n", glGetString(GL_RENDERER));
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // set color for clearing the screen
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_LINE -> wireframe | GL_FILL -> fill 
-    glUseProgram(main_shader->program_id); // use our program we created
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_LINE -> wireframe | GL_FILL -> fill  
+    main_shader->use(); // use our program we created
+
+    get_max_vertex_count();
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext(); // setup imgui context
@@ -68,7 +79,19 @@ void Renderer::loop()
         main_window->process_input(main_window->window_handle); // handle input
 
         glClear(GL_COLOR_BUFFER_BIT); // clear with the set color ( glClearColor )
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // opengl drawing
+
+        for (size_t i = 0; i < 2; i++)
+        {
+            glm::mat4 transform = glm::mat4(1.0f);
+            transform = glm::translate(transform, glm::vec3(-0.5f + i, 0.0f, 0.0f)); // move
+            transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 1.0f, 1.0f)); // rotate
+
+            unsigned int transformLoc = glGetUniformLocation(main_shader->program_id, "transform");
+            glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0); // opengl drawing
+        }
+
 
         ImGui_ImplOpenGL3_NewFrame(); // imgui frame setup
         ImGui_ImplGlfw_NewFrame();    // 

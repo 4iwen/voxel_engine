@@ -30,6 +30,26 @@ void Shader::create_program()
     new Objects(); // create our triangle and then link it with opengl
 }
 
+void Shader::use()
+{
+    glUseProgram(program_id);
+}
+
+void Shader::set_bool(const std::string& name, bool value) const
+{
+    glUniform1i(glGetUniformLocation(program_id, name.c_str()), (int)value);
+}
+
+void Shader::set_int(const std::string& name, int value) const
+{
+    glUniform1i(glGetUniformLocation(program_id, name.c_str()), value);
+}
+
+void Shader::set_float(const std::string& name, float value) const
+{
+    glUniform1f(glGetUniformLocation(program_id, name.c_str()), value);
+}
+
 unsigned int Shader::create_vertex_shader(const char* vertex_shader_source)
 {
     unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
