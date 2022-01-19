@@ -1,17 +1,7 @@
+#include "../objects/Objects.h"
 #include "Shader.h"
 
 unsigned int program_id;
-
-float _vertices[] = {
-     0.5f,  0.5f, 0.0f,  // top right
-     0.5f, -0.5f, 0.0f,  // bottom right
-    -0.5f, -0.5f, 0.0f,  // bottom left
-    -0.5f,  0.5f, 0.0f   // top left 
-};
-unsigned int _indices[] = {  // note that we start from 0!
-    0, 1, 3,   // first triangle
-    1, 2, 3    // second triangle
-};
 
 const char* _vertex_shader_source; 
 const char* _fragment_shader_source;
@@ -25,36 +15,19 @@ Shader::Shader(const char* vertex_shader_source, const char* fragment_shader_sou
 
 void Shader::create_program()
 {
-    unsigned int vertex_shader = create_vertex_shader(_vertex_shader_source);
-    check_vertex_shader(vertex_shader);
-    unsigned int fragment_shader = create_fragment_shader(_fragment_shader_source);
-    check_fragment_shader(fragment_shader);
+    unsigned int vertex_shader = create_vertex_shader(_vertex_shader_source);       // 
+    check_vertex_shader(vertex_shader);                                             // compile both shaders, 
+    unsigned int fragment_shader = create_fragment_shader(_fragment_shader_source); // check for compile errors
+    check_fragment_shader(fragment_shader);                                         //
 
-    glAttachShader(program_id, vertex_shader); // attach both shaders
-    glAttachShader(program_id, fragment_shader);
-    glLinkProgram(program_id);
+    glAttachShader(program_id, vertex_shader);   // attach both shaders to our program
+    glAttachShader(program_id, fragment_shader); //
+    glLinkProgram(program_id); // link our program with opengl
 
-    glDeleteShader(vertex_shader); // delete both shaders cuz we already attached them
-    glDeleteShader(fragment_shader);
+    glDeleteShader(vertex_shader);   // delete both shaders cuz we already attached them
+    glDeleteShader(fragment_shader); //
 
-    unsigned int VBO, VAO, EBO;
-    glGenBuffers(1, &VBO);
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), _vertices, GL_STATIC_DRAW); // create vertex buffer object
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices), _indices, GL_STATIC_DRAW); 
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    new Objects(); // create our triangle and then link it with opengl
 }
 
 unsigned int Shader::create_vertex_shader(const char* vertex_shader_source)

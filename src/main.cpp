@@ -2,7 +2,7 @@
 
 int main(int, char**)
 {
-    new Renderer();
+    new Renderer(); // start the renderer
 
     return 0;
 }
