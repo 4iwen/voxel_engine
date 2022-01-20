@@ -2,8 +2,8 @@
 
 GLFWwindow* window_handle;
 
-unsigned int window_width;
-unsigned int window_height;
+unsigned int Window::window_width;
+unsigned int Window::window_height;
 std::string _name;
 
 Window::Window(unsigned int width, unsigned int height, std::string name)
@@ -11,17 +11,9 @@ Window::Window(unsigned int width, unsigned int height, std::string name)
 	window_width = width;
 	window_height = height;
 	_name = name;
-
-	create_window();
 }
 
-void Window::process_input(GLFWwindow* window)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) // detect input
-		printf("Detected input: Escape\n");
-}
-
-void Window::create_window()
+void Window::create()
 {
 	glfwSetErrorCallback(glfw_error_callback); // set the glfw error callback -> if an error occurs, it will be displayed in the console
 
@@ -61,4 +53,7 @@ void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height
 {
 	printf("Window resized to: %i x %i\n", width, height);
 	glViewport(0, 0, width, height);
+
+	window_height = height;
+	window_width = width;
 }

@@ -57,6 +57,9 @@
     <ClCompile Include="src\camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\Gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="deps\imgui\include\imconfig.h">
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\camera\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

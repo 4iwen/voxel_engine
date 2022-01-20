@@ -9,12 +9,12 @@ const char* Shader::default_vertex_shader_source =
 "layout (location = 0) in vec3 position;\n"
 
 "uniform mat4 transform;\n"
-//"uniform mat4 view;\n"
-//"uniform mat4 projection;\n"
-// projection * view *
+"uniform mat4 view;\n"
+"uniform mat4 projection;\n"
+ 
 "void main()\n"
 "{\n"
-"   gl_Position = transform * vec4(position, 1.0);\n"
+"   gl_Position = projection * view * transform * vec4(position, 1.0);\n"
 "}\0";
 
 const char* Shader::default_fragment_shader_source =

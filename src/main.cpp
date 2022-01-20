@@ -2,7 +2,8 @@
 
 int main(int, char**)
 {
-    new Renderer(); // start the renderer
+    Renderer main_renderer; 
+    main_renderer.loop(); // start the renderer
 
     return 0;
 }
