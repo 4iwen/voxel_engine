@@ -3,8 +3,26 @@
 
 unsigned int program_id;
 
-const char* _vertex_shader_source; 
-const char* _fragment_shader_source;
+const char* Shader::default_vertex_shader_source =
+"#version 330 core\n"
+
+"layout (location = 0) in vec3 position;\n"
+"uniform mat4 transform;\n"
+
+"void main()\n"
+"{\n"
+"   gl_Position = transform * vec4(position, 1.0);\n"
+"}\0";
+
+const char* Shader::default_fragment_shader_source =
+"#version 330 core\n"
+
+"out vec4 FragColor;\n"
+
+"void main()\n"
+"{\n"
+"    FragColor = vec4(0.15f, 0.85f, 0.15f, 1.0f);\n"
+"}\0";
 
 Shader::Shader(const char* vertex_shader_source, const char* fragment_shader_source)
 {

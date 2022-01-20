@@ -11,6 +11,9 @@ class Shader
 public:
 	unsigned int program_id;
 
+	static const char* default_vertex_shader_source;
+	static const char* default_fragment_shader_source;
+
 	Shader(const char* vertex_shader_source, const char* fragment_shader_source);
 
 	void create_program();

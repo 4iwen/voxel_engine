@@ -3,27 +3,6 @@
 #include "Renderer.h"
 #include <windows.h>
 
-const char* vertex_shader_source =
-"#version 330 core\n"
-
-"layout (location = 0) in vec3 position;\n"
-"uniform mat4 transform;\n"
-
-"void main()\n"
-"{\n"
-"   gl_Position = transform * vec4(position, 1.0);\n"
-"}\0";
-
-const char* fragment_shader_source =
-"#version 330 core\n"
-
-"out vec4 FragColor;\n"
-
-"void main()\n"
-"{\n"
-"    FragColor = vec4(0.15f, 0.85f, 0.15f, 1.0f);\n"
-"}\0";
-
 Renderer::Renderer()
 {
 	loop();
@@ -54,7 +33,7 @@ void Renderer::loop()
     const char* glsl_version = "#version 330"; // tell imgui what version of glsl are we using
 
     Window* main_window = new Window(720, 720, "voxel engine"); // create window
-    Shader* main_shader = new Shader(vertex_shader_source, fragment_shader_source); // create shader
+    Shader* main_shader = new Shader(Shader::default_vertex_shader_source, Shader::default_fragment_shader_source); // create shader
     main_shader->create_program();
 
     printf("Using renderer: %s\n", glGetString(GL_RENDERER));

@@ -18,14 +18,7 @@ public:
 private:
 	void create_window();
 
-	static void glfw_error_callback(int error, const char* description)
-	{
-		printf("Glfw Error %d: %s\n", error, description);
-	}
+	static void glfw_error_callback(int error, const char* description);
 
-	static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-	{
-		printf("Window resized to: %i x %i\n", width, height);
-		glViewport(0, 0, width, height);
-	}
+	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 };

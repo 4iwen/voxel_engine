@@ -51,3 +51,14 @@ void Window::create_window()
 
 	glfwSetFramebufferSizeCallback(window_handle, framebuffer_size_callback); // check for window resize -> adjust opengl viewport
 }
+
+void Window::glfw_error_callback(int error, const char* description)
+{
+	printf("Glfw Error %d: %s\n", error, description);
+}
+
+void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	printf("Window resized to: %i x %i\n", width, height);
+	glViewport(0, 0, width, height);
+}
