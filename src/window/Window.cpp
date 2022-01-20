@@ -2,15 +2,15 @@
 
 GLFWwindow* window_handle;
 
-unsigned int _width;
-unsigned int _height;
+unsigned int window_width;
+unsigned int window_height;
 std::string _name;
 
-Window::Window(unsigned int window_width, unsigned int window_height, std::string window_name)
+Window::Window(unsigned int width, unsigned int height, std::string name)
 {
-	_width = window_width;
-	_height = window_height;
-	_name = window_name;
+	window_width = width;
+	window_height = height;
+	_name = name;
 
 	create_window();
 }
@@ -34,7 +34,7 @@ void Window::create_window()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);				   // hints for opengl, what version are we using and what profile
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 
 
-	window_handle = glfwCreateWindow(_width, _height, "voxel engine", NULL, NULL); // create window using glfw
+	window_handle = glfwCreateWindow(window_width, window_height, "voxel engine", NULL, NULL); // create window using glfw
 	if (window_handle == NULL) // check if window got created -> exit if not
 	{
 		printf("Failed to create GLFW window\n");
@@ -47,7 +47,7 @@ void Window::create_window()
 		printf("Failed to initialize GLAD\n");
 	}
 
-	glViewport(0, 0, _width, _height);
+	glViewport(0, 0, window_width, window_height);
 
 	glfwSetFramebufferSizeCallback(window_handle, framebuffer_size_callback); // check for window resize -> adjust opengl viewport
 }

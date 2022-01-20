@@ -7,8 +7,11 @@ const char* Shader::default_vertex_shader_source =
 "#version 330 core\n"
 
 "layout (location = 0) in vec3 position;\n"
-"uniform mat4 transform;\n"
 
+"uniform mat4 transform;\n"
+//"uniform mat4 view;\n"
+//"uniform mat4 projection;\n"
+// projection * view *
 "void main()\n"
 "{\n"
 "   gl_Position = transform * vec4(position, 1.0);\n"
@@ -66,6 +69,51 @@ void Shader::set_int(const std::string& name, int value) const
 void Shader::set_float(const std::string& name, float value) const
 {
     glUniform1f(glGetUniformLocation(program_id, name.c_str()), value);
+}
+
+void Shader::set_vec2(const std::string& name, const glm::vec2& value) const
+{
+    glUniform2fv(glGetUniformLocation(program_id, name.c_str()), 1, &value[0]);
+}
+
+void Shader::set_vec2(const std::string& name, float x, float y) const
+{
+    glUniform2f(glGetUniformLocation(program_id, name.c_str()), x, y);
+}
+
+void Shader::set_vec3(const std::string& name, const glm::vec3& value) const
+{
+    glUniform3fv(glGetUniformLocation(program_id, name.c_str()), 1, &value[0]);
+}
+
+void Shader::set_vec3(const std::string& name, float x, float y, float z) const
+{
+    glUniform3f(glGetUniformLocation(program_id, name.c_str()), x, y, z);
+}
+
+void Shader::set_vec4(const std::string& name, const glm::vec4& value) const
+{
+    glUniform4fv(glGetUniformLocation(program_id, name.c_str()), 1, &value[0]);
+}
+
+void Shader::set_vec4(const std::string& name, float x, float y, float z, float w) const
+{
+    glUniform4f(glGetUniformLocation(program_id, name.c_str()), x, y, z, w);
+}
+
+void Shader::set_mat2(const std::string& name, const glm::mat2& mat) const
+{
+    glUniformMatrix2fv(glGetUniformLocation(program_id, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shader::set_mat3(const std::string& name, const glm::mat3& mat) const
+{
+    glUniformMatrix3fv(glGetUniformLocation(program_id, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shader::set_mat4(const std::string& name, const glm::mat4& mat) const
+{
+    glUniformMatrix4fv(glGetUniformLocation(program_id, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
 unsigned int Shader::create_vertex_shader(const char* vertex_shader_source)

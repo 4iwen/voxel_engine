@@ -10,6 +10,8 @@ class Window
 {
 public:
 	GLFWwindow* window_handle;
+	unsigned int window_width;
+	unsigned int window_height;
 
 public:
 	Window(unsigned int window_width, unsigned int window_height, std::string window_name);
