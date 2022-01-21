@@ -9,19 +9,6 @@ Renderer::Renderer()
 
 }
 
-glm::vec3 cube_positions[] = {
-    glm::vec3(0.0f,  0.0f,  0.0f),
-    glm::vec3(2.0f,  5.0f, -15.0f),
-    glm::vec3(-1.5f, -2.2f, -2.5f),
-    glm::vec3(-3.8f, -2.0f, -12.3f),
-    glm::vec3(2.4f, -0.4f, -3.5f),
-    glm::vec3(-1.7f,  3.0f, -7.5f),
-    glm::vec3(1.3f, -2.0f, -2.5f),
-    glm::vec3(1.5f,  2.0f, -2.5f),
-    glm::vec3(1.5f,  0.2f, -1.5f),
-    glm::vec3(-1.3f,  1.0f, -1.5f)
-};
-
 const char* GetGLErrorStr(GLenum err)
 {
     switch (err)
@@ -54,7 +41,7 @@ void Renderer::loop()
     Window main_window(1280, 720, "voxel engine"); // assing window variables
     main_window.create(); // create the window
 
-    glfwSwapInterval(1); // vsync
+    glfwSwapInterval(1); // vsync | 1 -> enabled | 0 -> disabled
 
     Shader main_shader(Shader::default_vertex_shader_source, Shader::default_fragment_shader_source); // create shader
     main_shader.create_program(); // create our program
@@ -74,19 +61,17 @@ void Renderer::loop()
 
         main_camera.update(main_window.window_handle, main_shader);
 
-        for (unsigned int i = 0; i < 10; i++)
+        for (unsigned int i = 0; i < 20; i++)
         {
-            if (i % 2 == 0)
-                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            else
-                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            for (unsigned int j = 0; j < 20; j++)
+            {
+                glm::mat4 transform = glm::mat4(1.0f);                                                 //
+                transform = glm::translate(transform, glm::vec3(0.0f + j, 0.0f, 0.0f + i));            // transform object
+                transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 2.0f, 3.0f)); //
+                main_shader.set_mat4("transform", transform);                                          //
 
-            glm::mat4 transform = glm::mat4(1.0f);                                                    //
-            transform = glm::translate(transform, /*glm::vec3(0.0f, 0.0f, 0.0f)*/ cube_positions[i]); // transform object
-            transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 2.0f, 3.0f));    //
-            main_shader.set_mat4("transform", transform);                                             //
-
-            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0); // opengl drawing
+                glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0); // opengl drawing
+            }
         }
 
         CheckGLError();
