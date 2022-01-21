@@ -110,9 +110,13 @@ void Gui::draw_debug_window()
 	ImGui::Text("chunks loaded: %u", chunks_loaded);
 	ImGui::Text("voxels loaded: %u", voxels_loaded);
 	ImGui::Separator();
-	ImGui::Text("camera x: %f", Camera::camera_position.x);
-	ImGui::Text("camera y: %f", Camera::camera_position.y);
-	ImGui::Text("camera z: %f", Camera::camera_position.z);
+	ImGui::Text("x: %f", Camera::camera_position.x);
+	ImGui::Text("y: %f", Camera::camera_position.y);
+	ImGui::Text("z: %f", Camera::camera_position.z);
+	ImGui::Separator();
+	ImGui::Text("fov: %f", Camera::camera_fov);
+	ImGui::Text("yaw: %f", Camera::yaw);
+	ImGui::Text("pitch: %f", Camera::pitch);
 	ImGui::End();
 }
 

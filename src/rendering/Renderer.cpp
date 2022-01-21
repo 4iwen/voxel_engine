@@ -54,16 +54,17 @@ void Renderer::loop()
     Window main_window(1280, 720, "voxel engine"); // assing window variables
     main_window.create(); // create the window
 
-    glfwSetInputMode(main_window.window_handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSwapInterval(1); // vsync
 
     Shader main_shader(Shader::default_vertex_shader_source, Shader::default_fragment_shader_source); // create shader
     main_shader.create_program(); // create our program
     main_shader.use(); // use our program we created
 
-    Camera main_camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+    Camera main_camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)); // create our 3d camera
+    main_camera.setup(main_window.window_handle);
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // set color for clearing the screen
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_LINE -> wireframe | GL_FILL -> fill  
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // GL_LINE -> wireframe | GL_FILL -> fill  
 
     Gui::init(main_window.window_handle); // initialize imgui
 
