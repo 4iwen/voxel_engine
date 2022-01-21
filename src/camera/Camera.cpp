@@ -53,6 +53,12 @@ void Camera::mouse_callback(GLFWwindow* window, double x_in, double y_in)
 	y_offset *= sensitivity;
 
 	yaw += x_offset;
+
+	if (yaw < -270)
+		yaw = 90;
+	if (yaw > 90)
+		yaw = -270;
+
 	pitch += y_offset;
 
 	// clamp the pitch so that the camera doesnt get flipped
