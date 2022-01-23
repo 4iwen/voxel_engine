@@ -8,4 +8,3 @@
 #### glad -> https://github.com/Dav1dde/glad
 #### glm -> https://github.com/g-truc/glm
 #### imgui -> https://github.com/ocornut/imgui
-#### libnoise -> https://github.com/qknight/libnoise
