@@ -1,6 +1,6 @@
 # voxel_engine
 
-## title says it all
+## made in c++
 
 ### libraries used:
 
