@@ -16,7 +16,7 @@ struct BufferElement
 	BufferElement() = default;
 
 	BufferElement(GLShaderDataType type, const std::string& name, bool normalized = false)
-		: Name(name), Type(type), Size(GLUtils::GetGLShaderDataTypeSize(type)), Offset(0), Normalized(normalized), Divisor(1)
+		: Name(name), Type(type), Size(GLUtils::GetGLShaderDataTypeSize(type)), Offset(0), Normalized(normalized), Divisor(0)
 	{
 	}
 

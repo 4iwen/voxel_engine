@@ -1,10 +1,10 @@
 #include "GLIndexBuffer.h"
 
-GLIndexBuffer::GLIndexBuffer(const uint32_t* indices, uint32_t size, GLBufferUsageHint bufferUsage)
+GLIndexBuffer::GLIndexBuffer(const uint32_t* indices, uint32_t count, GLBufferUsageHint bufferUsage)
 {
 	glGenBuffers(1, &_rendererID);
 
-	SetData(indices, size, bufferUsage);
+	SetData(indices, count, bufferUsage);
 }
 
 GLIndexBuffer::~GLIndexBuffer()
@@ -15,12 +15,12 @@ GLIndexBuffer::~GLIndexBuffer()
 
 void GLIndexBuffer::Bind() const
 {
-	glBindBuffer(GL_ARRAY_BUFFER, _rendererID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _rendererID);
 }
 
 void GLIndexBuffer::Unbind() const
 {
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void GLIndexBuffer::SetData(const uint32_t* indices, uint32_t count)

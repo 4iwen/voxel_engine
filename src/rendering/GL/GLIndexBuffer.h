@@ -5,7 +5,7 @@
 class GLIndexBuffer
 {
 public:
-	GLIndexBuffer(const uint32_t* indices, uint32_t size, GLBufferUsageHint bufferUsage = GLBufferUsageHint::StaticDraw);
+	GLIndexBuffer(const uint32_t* indices, uint32_t count, GLBufferUsageHint bufferUsage = GLBufferUsageHint::StaticDraw);
 	~GLIndexBuffer();
 
 	void Bind() const;

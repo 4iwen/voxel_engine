@@ -45,6 +45,8 @@ void GLVertexArray::AddVertexBuffer(const Ref<GLVertexBuffer>& vertexBuffer)
 					element.Normalized ? GL_TRUE : GL_FALSE,
 					layout.GetStride(),
 					(const void*)element.Offset);
+				DEBUGBREAK(element.Divisor == 0); // not implemented
+				glVertexAttribDivisor(_vertexBufferIndex, 0);
 				_vertexBufferIndex++;
 				break;
 			}
@@ -60,6 +62,8 @@ void GLVertexArray::AddVertexBuffer(const Ref<GLVertexBuffer>& vertexBuffer)
 					GLUtils::GetBaseTypeFromGLShaderDataType(element.Type),
 					layout.GetStride(),
 					(const void*)element.Offset);
+				DEBUGBREAK(element.Divisor == 0); // not implemented
+				glVertexAttribDivisor(_vertexBufferIndex, 0);
 				_vertexBufferIndex++;
 				break;
 			}
@@ -76,8 +80,8 @@ void GLVertexArray::AddVertexBuffer(const Ref<GLVertexBuffer>& vertexBuffer)
 						element.Normalized ? GL_TRUE : GL_FALSE,
 						layout.GetStride(),
 						(const void*)(element.Offset + sizeof(float) * count * i));
-					DEBUGBREAK(element.Divisor == 1);
-					glVertexAttribDivisor(_vertexBufferIndex, 1);
+					DEBUGBREAK(element.Divisor == 0); // not implemented
+					glVertexAttribDivisor(_vertexBufferIndex, 0);
 					_vertexBufferIndex++;
 				}
 				break;
