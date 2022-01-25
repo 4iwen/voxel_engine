@@ -42,6 +42,7 @@ void Window::create()
 	glViewport(0, 0, window_width, window_height);
 
 	glfwSetFramebufferSizeCallback(window_handle, framebuffer_size_callback); // check for window resize -> adjust opengl viewport
+	glfwSwapInterval(1); // vsync | 1 -> enabled | 0 -> disabled
 }
 
 void Window::glfw_error_callback(int error, const char* description)
