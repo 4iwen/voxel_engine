@@ -11,6 +11,8 @@
 class Gui
 {
 public:
+	static int rendering_mode;
+
 	static void init(GLFWwindow* main_window);
 	static void render();
 	static void draw_debug_window();

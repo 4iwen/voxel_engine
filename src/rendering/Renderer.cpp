@@ -5,6 +5,8 @@
 #include "../gui/Gui.h"
 #include "Renderer.h"
 
+
+
 Renderer::Renderer()
 {
 
@@ -34,6 +36,19 @@ void Renderer::loop()
     while (!glfwWindowShouldClose(main_window.window_handle)) // check if window is closed -> stop rendering, exit
     {
         api.Clear(); // clear with the set color
+        
+        switch (Gui::rendering_mode)
+        {
+        case 0:
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            break;
+        case 1:
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            break;
+        case 2:
+            glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+            break;
+        }
 
         if (Window::show_mouse)
         {
@@ -53,7 +68,7 @@ void Renderer::loop()
                 {
                     glm::mat4 transform = glm::mat4(1.0f);                                                 //
                     transform = glm::translate(transform, glm::vec3(0.0f + i, 0.0f + j, 0.0f + k));        // transform object
-                    transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 2.0f, 3.0f)); //
+                    //transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 2.0f, 3.0f)); //
                     main_shader.set_mat4("transform", transform);
 
                     api.DrawIndexed(va);

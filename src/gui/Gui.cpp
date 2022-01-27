@@ -1,6 +1,9 @@
 #include "Gui.h"
 #include <algorithm>
 
+int Gui::rendering_mode = 0;
+const char* rendering_modes[] = { "fill", "wireframe", "dots" };
+
 void Gui::setup()
 {
 	IMGUI_CHECKVERSION();
@@ -118,6 +121,9 @@ void Gui::draw_debug_window()
 	ImGui::Text("fov: %f", Camera::camera_fov);
 	ImGui::Text("yaw: %f", Camera::yaw);
 	ImGui::Text("pitch: %f", Camera::pitch);
+	ImGui::Separator();
+	ImGui::SetNextItemWidth(100);
+	ImGui::Combo("rendering mode", &rendering_mode, rendering_modes, IM_ARRAYSIZE(rendering_modes));
 	ImGui::End();
 }
 
