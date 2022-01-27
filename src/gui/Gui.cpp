@@ -1,4 +1,5 @@
 #include "Gui.h"
+#include <algorithm>
 
 void Gui::setup()
 {

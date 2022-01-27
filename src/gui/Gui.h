@@ -6,6 +6,8 @@
 
 #include "../camera/Camera.h"
 
+#include <list>
+
 class Gui
 {
 public:

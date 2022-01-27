@@ -1,4 +1,3 @@
-#include "../objects/Objects.h"
 #include "Shader.h"
 
 unsigned int program_id;
@@ -47,8 +46,6 @@ void Shader::create_program()
 
     glDeleteShader(vertex_shader);   // delete both shaders cuz we already attached them
     glDeleteShader(fragment_shader); //
-
-    new Objects(); // create our triangle and then link it with opengl
 }
 
 void Shader::use()

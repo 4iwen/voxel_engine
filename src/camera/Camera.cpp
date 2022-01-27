@@ -76,7 +76,6 @@ void Camera::mouse_callback(GLFWwindow* window, double x_in, double y_in)
 
 void Camera::setup(GLFWwindow* window)
 {
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // hide the cursor
 	glfwSetCursorPosCallback(window, mouse_callback); // set the mouse callback -> get the mouse input
 	glfwSetScrollCallback(window, scroll_callback); // set the scroll callback so we can change the fov
 }
