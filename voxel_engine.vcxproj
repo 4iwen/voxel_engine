@@ -177,7 +177,6 @@
     <ClCompile Include="src\rendering\GL\GLRendererAPI.cpp" />
     <ClCompile Include="src\gui\Gui.cpp" />
     <ClCompile Include="src\camera\Camera.cpp" />
-    <ClCompile Include="src\objects\Objects.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
     <ClCompile Include="src\rendering\Renderer.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -208,7 +207,6 @@
     <ClInclude Include="src\rendering\GL\GLRendererAPI.h" />
     <ClInclude Include="src\gui\Gui.h" />
     <ClInclude Include="src\camera\Camera.h" />
-    <ClInclude Include="src\objects\Objects.h" />
     <ClInclude Include="src\shader\Shader.h" />
     <ClInclude Include="src\rendering\Renderer.h" />
     <ClInclude Include="src\testing\Object.h" />
